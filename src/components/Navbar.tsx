@@ -16,8 +16,7 @@ import {
   BookOpen, 
   Newspaper, 
   Code2, 
-  Zap,
-  ShieldCheck
+  Zap
 } from "lucide-react";
 
 interface NavbarProps {
@@ -44,7 +43,6 @@ export function Navbar({ onOpenSearch }: NavbarProps) {
     { name: "Tutorials", href: "/category/tutorials", icon: BookOpen },
     { name: "Programming", href: "/category/programming", icon: Code2 },
     { name: "Tech News", href: "/category/tech-news", icon: Newspaper },
-    { name: "Admin", href: "/admin", icon: ShieldCheck },
   ];
 
   return (
