@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { ThemeProvider } from "@/components/ThemeProvider";
+import { ThemeProvider, ThemeScript } from "@/components/ThemeProvider";
 
 export const metadata: Metadata = {
   title: "DevAI Pulse | Modern Tech & AI Blog & News Digest",
@@ -28,7 +28,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark">
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <ThemeScript />
+      </head>
       <body className="antialiased selection:bg-cyan-500 selection:text-white">
         <ThemeProvider>
           {children}

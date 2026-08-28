@@ -12,21 +12,34 @@ interface ThemeContextType {
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
+const themeScript = `(function() {
+  try {
+    var saved = localStorage.getItem("devai-pulse-theme");
+    var theme = saved || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+    if (theme === "dark") {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
+  } catch (e) {}
+})();`;
+
+export function ThemeScript() {
+  return (
+    <script
+      id="devai-pulse-theme-script"
+      dangerouslySetInnerHTML={{ __html: themeScript }}
+    />
+  );
+}
+
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const [theme, setThemeState] = useState<Theme>("dark");
 
   useEffect(() => {
-    const savedTheme = localStorage.getItem("devai-pulse-theme") as Theme | null;
-    if (savedTheme) {
-      setThemeState(savedTheme);
-      if (savedTheme === "dark") {
-        document.documentElement.classList.add("dark");
-      } else {
-        document.documentElement.classList.remove("dark");
-      }
-    } else {
-      document.documentElement.classList.add("dark");
-    }
+    // Read the actual DOM class initialized synchronously by ThemeScript
+    const isDark = document.documentElement.classList.contains("dark");
+    setThemeState(isDark ? "dark" : "light");
   }, []);
 
   const setTheme = (newTheme: Theme) => {
